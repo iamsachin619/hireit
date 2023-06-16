@@ -1,0 +1,62 @@
+.bookR {
+    display: inline-block;
+    width: 230px;
+    height: 477px;
+    box-shadow: 0 0 20px #aaa;
+    margin: 25px;
+    padding: 10px 10px 0 10px;
+    vertical-align: top;
+    transition: height 1s;
+  }
+  
+  .details{
+    opacity: 0;
+  }
+  .coverR {
+    border: 2px solid gray;
+    height: 300px;
+    overflow: hidden;
+  }
+  
+  .coverR img {
+    width: 100%;
+  }
+  
+  .bookR p {
+    margin-top: 12px;
+    font-size: 20px;
+  }
+  
+  .bookR .author {
+    font-size: 15px;
+  }
+  @media (max-width: 941px) {
+    .container {
+      max-width: 700px;
+    }
+    .bookR {
+      margin: 49px;
+    }
+  }
+  @media (max-width: 730px) {
+    .bookR {
+      display: block;
+      margin: 0 auto;
+      margin-top: 50px;
+    }
+    .coverR {
+      
+    }
+  }
+  
+  /*********************************
+  other
+  **********************************/
+  
+  h1 {
+    color: gray;
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: -3px;
+  }
+  
