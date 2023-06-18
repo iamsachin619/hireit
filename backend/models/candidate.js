@@ -12,7 +12,8 @@ let candidateSchema = mongoose.Schema({
         type:String,
         enum: ['pending', 'forwarded', 'rejected','scheduled']
     },
-    pan: String
+    pan: String,
+    createdAt: Date,
  });
 
 

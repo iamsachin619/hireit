@@ -10,18 +10,19 @@ export default function RedirectorPage({pathname,user}) {
     useEffect(()=>{
         if(pathname == '/'){
             if(user){
+                console.log({user})
                 switch(user.role){
                     case 'user':
                         navigation('/userLandingPage');break;
                     case 'staff':
                         navigation('/staffDashboard');break;
                     case 'admin':
-                        navigation('/adminStaffControl');break;
+                        navigation('/adminUserControl');break;
                     default:
                         navigation('/userLnadingPage')
                 }
             }else{
-                navigation('/userLandingPage')
+                navigation('/login')
             }
         }
     },[])

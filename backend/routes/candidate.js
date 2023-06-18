@@ -1,13 +1,14 @@
 const express  = require('express')
 const routes = express.Router()
 //const {addbooksctrl} = require('../controllers/books.js')
-const booksctrls = require('../controllers/books.js')
+const candidateControlls = require('../controllers/candidate.js')
 
 
-routes.get('/list', booksctrls.listCandidate )
-routes.post('/updateStatus', booksctrls.updateCandidateStatus )
-routes.post('/add', booksctrls.addCandidate )
-routes.post('/delete', booksctrls.deleteCandidate )
+routes.post('/list', candidateControlls.listCandidate )
+routes.post('/updateStatus', candidateControlls.updateCandidateStatus )
+routes.post('/add', candidateControlls.addCandidate )
+routes.post('/delete', candidateControlls.deleteCandidate )
+routes.post('/search', candidateControlls.searchCandidate )
 
 
 

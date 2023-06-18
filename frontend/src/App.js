@@ -17,10 +17,11 @@ import StaffDashboard from './Pages/Staff/StaffDashboard';
 import StaffRentalPage from './Pages/Staff/StaffRentalPage';
 import AdminStaffControl from './Pages/Admin/AdminStaffControl';
 import AdminUserControl from './Pages/Admin/AdminUserControl';
+import AdminCandidatesControl from './Pages/Admin/AdminCandidatesControl';
 import { useEffect, useState } from 'react';
 import NavBar from './Components/NavBar';
 import UserBooks from './Pages/User/UserBooks';
-import TestCookie from './Pages/testCookie';
+// import TestCookie from './Pages/testCookie';
 import RedirectorPage from './Pages/RedirectorPage';
 function App() {
   const navigation = useNavigate()
@@ -61,6 +62,7 @@ function App() {
         {/* admin */}
         <Route path="/adminStaffControl" element={<AdminStaffControl />}/>{/*to add, edit and delete staff*/}
         <Route path="/adminUserControl" element={<AdminUserControl />}/>{/*to ban and unban user*/}
+        <Route path='/adminCandidates' element={<AdminCandidatesControl />}/>{/*to control candidates*/}
     </Routes>
     </div>
   );

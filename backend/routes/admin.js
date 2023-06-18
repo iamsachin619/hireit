@@ -6,8 +6,8 @@ const { verifyToken, verifyAdmin } = require('../util/verify')
 const userfunctions = require('../controllers/users')
 
 
-// routes.post('/staffregister',verifyToken, verifyAdmin, adminfunctions.staffregisterctrl )
-// routes.post('/stafflogin', adminfunctions.staffloginctrl )
+routes.post('/staffregister',verifyToken, verifyAdmin, adminfunctions.staffregisterctrl )
+routes.post('/stafflogin', adminfunctions.staffloginctrl )
 //add user
 routes.post('/adduser',verifyToken, verifyAdmin, userfunctions.userregisterctrl)
 routes.post('/disableuser',verifyToken, verifyAdmin, adminfunctions.userdisable)

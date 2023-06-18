@@ -50,7 +50,7 @@ export default function LoginPage({setUser}) {
         <div class="login-main-text">
 
           <h2>
-            Welcome to Books Library <br />
+            Welcome to HireIt<br />
             Login Page
           </h2>
           {/* <p>Login or register from here to access.</p> */}
@@ -62,7 +62,7 @@ export default function LoginPage({setUser}) {
             {err && <div className=" alert alert-danger">{err}</div>}
             <>
               <div class="form-group mt-1">
-                <label>User Name</label>
+                <label>Email</label>
                 <input
                   type="text"
                   class="form-control"
@@ -102,14 +102,14 @@ export default function LoginPage({setUser}) {
               >
                 Login
               </button>
-              <button
+              {/* <button
                 class="btn btn-secondary ms-2 my-3"
                 onClick={() => {
                   navigation("/register");
                 }}
               >
                 Register
-              </button>
+              </button> */}
             </>
           </div>
         </div>

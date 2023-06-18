@@ -1,9 +1,9 @@
-const createError = (status, message) => {
-    const err = new Error();
+const createError = (status, message, res) => {
+    const err = {};
     err.status = status;
     err.message = message;
-    
-    return err;
+    res.status(status).json(err);
+    return;
   };
   
   module.exports = {createError};

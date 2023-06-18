@@ -32,12 +32,12 @@ export default function NavBar(props) {
         nouser:[
           {name:'Home', path:'/userLandingPage'},
           {name:'Login', path:'/login'},
-          {name:'Register', path:'/register'},
+          // {name:'Register', path:'/register'},
         ],
         user:[
             {name:'Home', path:'/userLandingPage'},
-            {name:'MyBooks', path:'/userBooks'},
-            {name:'MyOrders', path:'/userRentalsPage'}
+            // {name:'MyBooks', path:'/userBooks'},
+            // {name:'MyOrders', path:'/userRentalsPage'}
         ],
         staff:[
             {name:'Home', path:'/staffDashboard'},
@@ -45,9 +45,9 @@ export default function NavBar(props) {
             
         ],
         admin:[
-            {name:'Home', path:'/adminStaffControl'},
+            // {name:'Home', path:'/adminStaffControl'},
             {name:'User Control', path:'/adminUserControl'},
-
+            {name:'Candidates', path:'/adminCandidates'}
         ]
 
         

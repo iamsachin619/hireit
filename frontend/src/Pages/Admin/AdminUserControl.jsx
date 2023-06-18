@@ -26,6 +26,19 @@ import CloseIcon from '@rsuite/icons/Close';
 import InputAdornment from '@mui/material/InputAdornment';
 export default function AdminUserControl() {
 
+
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const [err, setErr] = useState(null)
   const [users, setUsers] = useState([])
     useEffect(() => {
@@ -107,6 +120,43 @@ export default function AdminUserControl() {
         .catch(error => {setErr('Error Disabling Staff')})
     }
 
+    const [fname, setFname] = useState('')
+    const [lname, setLname] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPass] = useState('')
+    const [adErr, setAdErr] = useState(null)
+    const AddUser =() => {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      fetch(apiHost + 'admin/adduser',{
+        credentials:'include',
+        method: 'POST',
+        headers: myHeaders,
+        body:JSON.stringify({
+          "firstName": fname,
+          "lastName": lname,
+          "email":email,
+          "password": password
+        })
+      })
+        .then(res => {
+          console.log({res})
+          if(res.status == 200){
+            return res
+          }
+        })
+        .then(res => res.json())
+        .then(res => {
+          setUsers([ res, ...users])
+          setAdErr(null)
+          handleClose()
+          setEmail('')
+          setLname('')
+          setFname('')
+          setPass('')
+        })
+        .catch(error => {setAdErr('Error Adding Staffs')})
+    }
 
     const [search, setSearch] = useState('')
     useEffect(()=>{
@@ -144,7 +194,11 @@ export default function AdminUserControl() {
     <div>
      <Toolbar/>
          {err && <p className="alert alert-danger my-2">{err}</p>}
-        
+         <div className="addNewBook m-3 d-flex justify-content-end align-items-center font-weight-bold" style={{fontWeight:'bold'}}>
+            <div className="btn" onClick={()=> handleClickOpen()}>
+                <span className="font-weight-bold">Add User</span> <AddCircleIcon style={{fontSize:'38px'}}/>
+            </div>
+        </div>
          <div className="container mt-3">
           <TextField
               placeholder='Search users'
@@ -182,6 +236,45 @@ export default function AdminUserControl() {
           })}
           </Table>
         </TableContainer>
+
+        <Dialog
+        fullScreen={fullScreen}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"Add new user"}
+        </DialogTitle>
+        <DialogContent>
+        {adErr && <p className="alert alert-danger">{adErr}</p>}
+          <DialogContentText>
+            All fields are mandatory.
+          </DialogContentText>
+          <div className="form">
+            {/* userName: String
+                firstName: string 
+                lastName: string
+                password: string
+                email: string  */}
+            
+           
+           <TextField id="filled-basic" label="First name" variant="filled"  className='m-3' value={fname} onChange={e => setFname(e.target.value)}/> 
+           <TextField id="filled-basic" label="Last name" variant="filled"  className='m-3'value={lname} onChange={e => setLname(e.target.value)}/> 
+           <TextField id="filled-basic" label="Password" variant="filled"  className='m-3'value={password} onChange={e => setPass(e.target.value)}/> 
+           <TextField id="filled-basic" label="Email" variant="filled"  className='m-3'value={email} onChange={e => setEmail(e.target.value)}/> 
+         
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button onClick={AddUser} >
+            Add User!
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }

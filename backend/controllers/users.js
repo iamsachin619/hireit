@@ -30,11 +30,12 @@ async function userregisterctrl(req, res) {
       );
       res
         .status(200)
-        .cookie("access_token", token)
+        // .cookie("access_token", token)
         .json({
           email: userData.email,
           firstName: userData.firstName,
           role: userData.typeOfUser,
+          status: userData.status,
         })
 
         
