@@ -64,7 +64,7 @@ async function userloginctrl(req, res) {
         process.env.JWT_SECRET
       );
       res
-        .cookie("access_token", token)
+        .cookie("access_token", token, {sameSite: 'none', secure: true })
         .json({
           email: user.email,
           firstName: user.firstName,
