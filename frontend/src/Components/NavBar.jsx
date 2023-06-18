@@ -121,7 +121,7 @@ export default function NavBar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MyLibrary
+            HireIt
           </Typography>
           
             
