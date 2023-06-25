@@ -1,2 +1,2 @@
- const apiHost = 'http://localhost:8000/'
+ const apiHost = 'https://hireitapi.onrender.com/'
  export default apiHost
