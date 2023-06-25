@@ -24,7 +24,7 @@ export default function UserLandingPage({user}) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const options = ['pending', 'forwarded', 'rejected','scheduled', 'all'];
+  const options = ['pending', 'forwarded', 'rejected','scheduled', 'all status'];
   const [selectedIndex, setSelectedIndex] = React.useState(4);
   const handleClickOpen = () => {
     console.log('clicked')
@@ -264,7 +264,7 @@ export default function UserLandingPage({user}) {
             />
             </div>
             <div className="col-4">
-              <SplitButton selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}/>
+              <SplitButton selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} options={options}/>
             </div>
           </div>
           
