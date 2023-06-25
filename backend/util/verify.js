@@ -4,14 +4,21 @@ const { createError } = require("./createError");
 
 
 const verifyToken = (req, res, next) => {
-  console.log(req.cookies)
+  console.log('cookeiss obj ----',req.cookies)
   const token = req.cookies.access_token;
-  if (!token) return next(createError(401, "No token provided!", res));
+  console.log('token',token)
+  if (!token) {
+    // console.log('verify error')
+    createError(401, "No token provided!", res)
+    // console.log('verify error end')
+    return;
+  }
+  console.log('verify before jwt')
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) return next(createError(401, "Invalid token!", res));
+    if (err) return createError(401, "Invalid token!", res);
     req._id = decoded.id;
-    req.role = decoded.role;
-   
+    req.role = decoded.role; 
+    // console.log('verify clear')
     next();
     return
     
@@ -24,7 +31,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const verifyUser = async (req, res, next) => {
-    if(req.role !== 'user') return next(createError(401, "Not a User!", res));
+    if(req.role !== 'user') return createError(401, "Not a User!", res);
 
     req.user_id = req._id
     return next();
@@ -34,14 +41,15 @@ const verifyUser = async (req, res, next) => {
 }
 
 const verifyStaff = async(req,res,next) =>{
-    if(req.role !== 'staff') return next(createError(401, 'Not a Staff!', res))
+    if(req.role !== 'staff') return createError(401, 'Not a Staff!', res)
 
     req.body.staff_id = req._id
     return next();
 }
 
 const verifyAdmin = async (req, res, next) =>{
-    if(req.role !== 'admin') return next(createError(401, 'Not an Admin!',res))
+  console.log('verify admin')
+    if(req.role !== 'admin') return createError(401, 'Not an Admin!',res)
     return next();
 }
 

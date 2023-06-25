@@ -1,2 +1,2 @@
- const apiHost = 'https://hireit.onrender.com/'
+ const apiHost = 'http://localhost:8000/'
  export default apiHost

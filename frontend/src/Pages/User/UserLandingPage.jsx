@@ -115,20 +115,33 @@ export default function UserLandingPage({user}) {
 
   function getCandidates(){
 
-    let config = {
-      method: 'post',
-      url: apiHost + 'candidate/list',
-      data: {
+    // let config = {
+    //   method: 'post',
+    //   url: apiHost + 'candidate/list',
+    //   data: {
+    //     page: page,
+    //     rows: rows,
+    //     status: options[selectedIndex] == 'all' ? false: options[selectedIndex]
+    //   },
+    // };
+    
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    fetch(apiHost + 'candidate/list',{
+      credentials:'include',
+      method: 'POST',
+      headers: myHeaders,
+      body:JSON.stringify({
         page: page,
         rows: rows,
         status: options[selectedIndex] == 'all' ? false: options[selectedIndex]
-      },
-    };
-    
-    axios(config)
+      })
+    })
+    .then(res => res.json())
     .then((response) => {
-      setTotal(response.data.total);
-      setBooks(response.data.candidateList);
+      console.log({response})
+      setTotal(response.total);
+      setBooks(response.candidateList);
     })
     .catch((error) => {
       console.log(error);

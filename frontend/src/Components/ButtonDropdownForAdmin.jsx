@@ -15,6 +15,7 @@ const options = ['pending', 'forwarded', 'rejected','scheduled'];
 export default function SplitButtonAtAdmin({status, candidateId}) {
 console.log({status}, options.indexOf(status))
   const [selectedIndex, setSelectedIndex] = React.useState(options.indexOf(status));
+  const [prevIndex, setPrevIndex] = React.useState(options.indexOf(status));
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -24,23 +25,30 @@ console.log({status}, options.indexOf(status))
 
   const handleMenuItemClick = (event, index) => {
     updateStatus(index)
-    setSelectedIndex(index);
+    setPrevIndex(selectedIndex)
+    
     setOpen(false);
   };
   const updateStatus = async (index) => {
+    //send cookie to the request
+
+
     let config = {
+        credentials: 'include',
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({status: options[index], candidate_id: candidateId}),
         url: apiHost + 'candidate/updateStatus'
+
 }  
     
         fetch(config.url, config)
         .then(res => res.json())
         .then(data => {
             console.log(data)
+            setSelectedIndex(index);
         })
         .catch(err => console.log(err))
     

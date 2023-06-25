@@ -13,15 +13,18 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from '@mui/material';
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, getListSubheaderUtilityClass, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from '@mui/material';
 import {Pagination} from '@mui/material';
 import { useToaster,Notification } from 'rsuite';
 import SplitButton from '../../Components/ButtonDropdow';
 import SplitButtonAtAdmin from '../../Components/ButtonDropdownForAdmin';
+import SplitButtonUsers from '../../Components/ButtonDropdownUsers';
 
+// const options = ['pending', 'forwarded', 'rejected','scheduled', 'All'];
 function AdminCandidatesControl() {
-  const options = ['pending', 'forwarded', 'rejected','scheduled', 'all'];
+  const options = ['pending', 'forwarded', 'rejected','scheduled', 'all status'];
   const [selectedIndex, setSelectedIndex] = React.useState(4);
+  const [selectedUserIndex, setSelectedUserIndex] = React.useState(0);
   const [books, setBooks] = useState([])
     const [page, setPage] = useState(1)
     const [rows, setRows] = useState(50)
@@ -30,22 +33,63 @@ function AdminCandidatesControl() {
         getCandidates()
     },[])
 
+
+    const [users, setUsers] = useState([{_id: 'all franchise'}])
+    useEffect(()=>{
+      getUsers()
+  },[])
+  
+  const getUsers = () =>{
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    fetch(apiHost + 'admin/getUserList',{
+      credentials:'include',
+      method: 'GET',
+      headers: myHeaders
+    })
+      .then(res => {
+        console.log({res})
+        if(res.status == 200){
+          return res
+        }
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log({res}, 'users')
+        setUsers([{_id: 'all franchise', email: 'All Franchise'},...res])
+      })
+      .catch(error => {setErr('Error fetching Staffs')})
+    }
+
     function getCandidates(){
 
-      let config = {
-        method: 'post',
-        url: apiHost + 'candidate/list',
-        data: {
+      // let config = {
+      //   method: 'post',
+      //   credentials: 'include',
+      //   url: apiHost + 'candidate/list',
+      //   data: {
+      //     page: page,
+      //     rows: rows,
+      //     status: options[selectedIndex] == 'all' ? false: options[selectedIndex]
+      //   },
+      // };
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      fetch(apiHost + 'candidate/list',{
+        credentials:'include',
+        method: 'POST',
+        headers: myHeaders,
+        body:JSON.stringify({
           page: page,
           rows: rows,
-          status: options[selectedIndex] == 'all' ? false: options[selectedIndex]
-        },
-      };
-      
-      axios(config)
+          status: options[selectedIndex] == 'all status' ? false: options[selectedIndex],
+          uploadedBy: users[selectedUserIndex]._id == 'all franchise' ? false: users[selectedUserIndex]._id
+        })
+      })
+      .then(res => res.json())
       .then((response) => {
-        setTotal(response.data.total);
-        setBooks(response.data.candidateList);
+        setTotal(response.total);
+        setBooks(response.candidateList);
       })
       .catch((error) => {
         console.log(error);
@@ -101,6 +145,9 @@ function AdminCandidatesControl() {
 
     useEffect(()=>{
       getCandidates()
+    },[selectedUserIndex])
+    useEffect(()=>{
+      getCandidates()
     },[selectedIndex])
 
   return (
@@ -129,8 +176,11 @@ function AdminCandidatesControl() {
               }}
             />
             </div>
-            <div className="col-4">
-              <SplitButton selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex}/>
+            <div className="col-2">
+              <SplitButton selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} options={options}/>
+            </div>
+            <div className="col-2">
+              <SplitButtonUsers selectedIndex={selectedUserIndex} setSelectedIndex={setSelectedUserIndex} options={users}/>
             </div>
           </div>
           
@@ -145,6 +195,7 @@ function AdminCandidatesControl() {
               <TableCell>Name</TableCell>
               <TableCell>email</TableCell>
               <TableCell>PAN</TableCell>
+              <TableCell>uploadedBy</TableCell>
               <TableCell>Resume</TableCell>
               <TableCell>Status</TableCell>
               </TableRow>
@@ -154,6 +205,7 @@ function AdminCandidatesControl() {
               <TableCell>{candidate.name}</TableCell>
               <TableCell>{candidate.email}</TableCell>
               <TableCell>{candidate.pan}</TableCell>
+              <TableCell>{candidate.uploadedBy.email}</TableCell>
               <TableCell><a href={candidate.resume}>Link</a></TableCell>
               <TableCell><SplitButtonAtAdmin status={candidate.status} candidateId={candidate._id} key={candidate._id}/></TableCell>
               {/* <TableCell><button onClick={() => opneConfirm(candidate._id)}>Delete</button></TableCell> */}

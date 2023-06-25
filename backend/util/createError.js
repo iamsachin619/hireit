@@ -3,7 +3,7 @@ const createError = (status, message, res) => {
     err.status = status;
     err.message = message;
     res.status(status).json(err);
-    return;
+    // console.log('create error')
   };
-  
+   
   module.exports = {createError};

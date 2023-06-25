@@ -11,13 +11,13 @@ import MenuList from '@mui/material/MenuList';
 
 // const options = ['pending', 'forwarded', 'rejected','scheduled', 'All'];
 
-export default function SplitButton({selectedIndex,setSelectedIndex, options}) {
+export default function SplitButtonUsers({selectedIndex,setSelectedIndex, options}) {
 console.log({selectedIndex})
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
   const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
+    console.info(`You clicked ${options[selectedIndex].email}`);
   };
 
   const handleMenuItemClick = (event, index) => {
@@ -40,7 +40,7 @@ console.log({selectedIndex})
   return (
     <React.Fragment>
       <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
-        <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+        <Button onClick={handleClick}>{options[selectedIndex].email}</Button>
         <Button
           size="small"
           aria-controls={open ? 'split-button-menu' : undefined}
@@ -75,12 +75,12 @@ console.log({selectedIndex})
                 <MenuList id="split-button-menu" autoFocusItem>
                   {options.map((option, index) => (
                     <MenuItem
-                      key={option}
+                      key={option._id}
                       // disabled={index === 2}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
-                      {option}
+                      {option.email}
                     </MenuItem>
                   ))}
                 </MenuList>

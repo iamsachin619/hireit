@@ -11,7 +11,7 @@ routes.post('/stafflogin', adminfunctions.staffloginctrl )
 //add user
 routes.post('/adduser',verifyToken, verifyAdmin, userfunctions.userregisterctrl)
 routes.post('/disableuser',verifyToken, verifyAdmin, adminfunctions.userdisable)
-routes.post('/enableuser',verifyToken, verifyAdmin, adminfunctions.userenable)
+routes.post('/enableuser',verifyToken, verifyAdmin, adminfunctions.userenable) 
 routes.get('/getUserList',verifyToken, verifyAdmin, adminfunctions.listOfUsers)
 routes.post('/searchUsers',verifyToken, verifyAdmin, adminfunctions.searchUser)
 routes.post('/searchStaff',verifyToken, verifyAdmin, adminfunctions.searchStaff)

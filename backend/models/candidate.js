@@ -5,7 +5,10 @@ const mongoose = require('./mongodb').mongoose;   // connection is already estab
 let candidateSchema = mongoose.Schema({
     resume: String,  
 	name: String,
-    uploadedBy: String,
+    uploadedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'userdetails'
+    },
     dob: String,
     email: String,
     status: {

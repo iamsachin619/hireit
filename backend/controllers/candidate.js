@@ -9,10 +9,11 @@ async function addCandidate(req, res) {
     res.status(400).json({msg:"candidate already exists"})
     return
   }
+  console.log(req.user_id, '---- req._id')
   let candidateData = Candidate.candidateModel({
     resume: req.body.resume,  
 	name: req.body.name,
-    uploadedBy: req._id,
+    uploadedBy: mongoose.Types.ObjectId(req._id),
     dob: req.body.dob,
     email: req.body.email,
     status: 'pending',
@@ -43,7 +44,9 @@ async function listCandidate(req, res) {
   if(req.role == 'user'){
     filter.uploadedBy = req._id
   }
-
+  if(req.body.uploadedBy){
+    filter.uploadedBy = mongoose.Types.ObjectId(req.body.uploadedBy)
+  }
   if(req.body.status){
     filter.status = req.body.status
   }
@@ -60,7 +63,10 @@ async function listCandidate(req, res) {
   }else{
     total = req.body.total
   }
-  let candidateList = await Candidate.candidateModel.find(filter).limit(limit).skip(skip);
+  let candidateList = await Candidate.candidateModel.find(filter)
+  .populate('uploadedBy')
+  .limit(limit)
+  .skip(skip);
   // console.log(candidateList)
   res.json({candidateList,total});
 }
